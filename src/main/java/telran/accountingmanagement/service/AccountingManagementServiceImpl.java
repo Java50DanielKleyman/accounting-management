@@ -1,6 +1,5 @@
 package telran.accountingmanagement.service;
 
-import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import telran.accountingmanagement.dto.AccountDto;
+import telran.accountingmanagement.exceptions.AccountNotFoundException;
 import telran.accountingmanagement.exceptions.EmailIlegalStateException;
 import telran.accountingmanagement.model.Account;
 
