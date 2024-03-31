@@ -6,10 +6,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import telran.security.accounting.dto.AccountDto;
 
 @Document(collection="accounts")
 @Getter
+@Setter
 @AllArgsConstructor(access=AccessLevel.PRIVATE)
 public class Account {
 	@Id

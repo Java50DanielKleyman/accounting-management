@@ -58,12 +58,14 @@ public class AccountingServiceImpl implements AccountingService {
 		if (!currentUsername.equals(email)) {
 			throw new IllegalArgumentException("Only current authenticated user may update its password");
 		}
-		Account account = mongoTemplate.findById(new Query(Criteria.where("email").is(email)), Account.class);
+		Account account = mongoTemplate.findOne(new Query(Criteria.where("email").is(email)), Account.class);
 		if (account == null) {
 			throw new AccountNotFoundException(email);
 		}
-		AccountDto encodedAccount = getEncoded(new AccountDto(account.getEmail(), newPassword, account.getRoles()));
-		account = mongoTemplate.insert(Account.of(encodedAccount));
+		String encodedPassword = passwordEncoder.encode(newPassword);
+		account.setHashPassword(encodedPassword);
+		mongoTemplate.save(account);
+		log.debug("password for account {} has been updated", email);
 	}
 
 }
