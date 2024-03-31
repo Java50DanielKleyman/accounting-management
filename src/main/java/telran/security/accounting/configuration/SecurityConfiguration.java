@@ -14,16 +14,19 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 	@Value("${app.password.strength:10}")
 	int strength;
+
 	@Bean
 	PasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder(strength);
 	}
+
 	@Bean
-	SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception  {
+	SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.cors(customizer -> customizer.disable());
 		httpSecurity.csrf(customizer -> customizer.disable());
-		httpSecurity.authorizeHttpRequests(customizer -> customizer.anyRequest()
-				.hasAnyRole("USER", "ADMIN"));
+		httpSecurity.authorizeHttpRequests(customizer -> customizer.requestMatchers(HttpMethod.DELETE).hasRole("USER"));
+		httpSecurity.authorizeHttpRequests(customizer -> customizer.requestMatchers(HttpMethod.POST).hasRole("ADMIN"));
+		httpSecurity.authorizeHttpRequests(customizer -> customizer.requestMatchers(HttpMethod.PUT).permitAll());
 		httpSecurity.httpBasic(Customizer.withDefaults());
 		return httpSecurity.build();
 	}

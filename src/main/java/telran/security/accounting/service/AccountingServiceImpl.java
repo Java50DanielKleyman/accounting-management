@@ -52,7 +52,8 @@ public class AccountingServiceImpl implements AccountingService {
 	}
 
 	@Override
-	public void updatePassword(String email, String newPassword) {
+	public void updatePassword(String email, String newPassword)
+			throws AccountNotFoundException, IllegalArgumentException {
 		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 		if (!currentUsername.equals(email)) {
 			throw new IllegalArgumentException("Only current authenticated user may update its password");
